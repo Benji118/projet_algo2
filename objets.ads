@@ -17,9 +17,16 @@ P1 : Point;
 P2 : Point;
 end record;
 
+type point_seg is record
+	p: point;
+	seg_gauche, seg_droite: segment;
+end record;
+
 type Tab_Sommets is array (integer range <>) of Point;
 
 type Polygone is array (integer range <>) of Segment;
+
+type tab_point_seg is array (integer range <>) of point_seg;
 
 procedure put(a: segment);
 
