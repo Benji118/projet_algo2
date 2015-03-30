@@ -20,7 +20,7 @@ begin
 	end if;
 end;
 
-procedure insertion(a: in out arbre; cle: integer) is
+procedure insertion(a: in out arbre; cle: segment) is
 begin
 	if a = null then 
 		a := new noeud'(cle, (null, null), null, 1);
@@ -28,7 +28,7 @@ begin
 		a.compte := a.compte + 1;
 			if cle <= a.c and a.fils(gauche) = null then
 			   a.fils(gauche) := new noeud'(cle, (null, null), a, 1);
-			elsif cle > a.c and a.fils(droite) = null then
+			elsif not(cle <= a.c) and a.fils(droite) = null then
 			   a.fils(droite) := new noeud'(cle, (null, null), a, 1);	
 			elsif cle <= a.c then
 				insertion(a.fils(gauche), cle);
@@ -38,7 +38,7 @@ begin
 	end if;
 end;
 
-procedure sup_max(max: out integer; a: in out arbre) is
+procedure sup_max(max: out segment; a: in out arbre) is
 begin
 	if a.fils(droite) = null then
 		max := a.c;
@@ -59,8 +59,8 @@ begin
 	end if;
 end;
 
-procedure supprimer(a: in out arbre; cle: integer) is
-	max_cle: integer;
+procedure supprimer(a: in out arbre; cle: segment) is
+	max_cle: segment;
 begin
 	if a = null then
 		null;
@@ -70,7 +70,7 @@ begin
 		-- il faut décrementer le compte des pères
 		decrementer(a.pere);
 	else 
-		if cle < a.c then
+		if not(cle = a.c) and (cle <= a.c) then
 			supprimer(a.fils(gauche), cle);
 		else 
 			supprimer(a.fils(droite), cle);
@@ -78,13 +78,13 @@ begin
 	end if;
 end;
 
-function recherche(a: arbre; cle: integer) return boolean is
+function recherche(a: arbre; cle: segment) return boolean is
 begin
 	if a = null then 
 		return false;
 	elsif cle = a.c then
 		return true;
-	elsif cle < a.c then
+	elsif not(cle = a.c) and (cle <= a.c) then
 		return recherche(a.fils(gauche), cle);
 	else 
 		return recherche(a.fils(droite), cle);
@@ -93,7 +93,7 @@ end;
 
 function choix_max_arbre(a, b: arbre) return arbre is
 begin
-	if a.c > b.c then 
+	if not(a.c <= b.c) then 
 		return a;
 	else 
 		return b;
@@ -125,6 +125,7 @@ begin
 	else
 		petit_voisin := max_arbre(cible.fils(gauche));
 	end if;
+
 	if cible.fils(droite) = null then
 		grand_voisin := null;
 	else 
@@ -132,22 +133,22 @@ begin
 	end if;
 end;
 
-function parcours_grands(a: arbre; cle: integer) return natural is
+function parcours_grands(a: arbre; cle: segment) return natural is
 begin
 	if a = null then 
 		return 0;
-	elsif cle < a.c then
+	elsif not(cle = a.c) and (cle <= a.c) then
 		return a.compte - a.fils(gauche).compte + parcours_grands(a.pere, cle);
 	else
 		return parcours_grands(a.pere, cle);
 	end if;
 end;
 
-function parcours_petits(a: arbre; cle: integer) return natural is
+function parcours_petits(a: arbre; cle: segment) return natural is
 begin
 	if a = null then 
 		return 0;
-	elsif cle > a.c then
+	elsif not(cle <= a.c) then
 		return a.compte - a.fils(droite).compte + parcours_petits(a.pere, cle);
 	else
 		return parcours_petits(a.pere, cle);
