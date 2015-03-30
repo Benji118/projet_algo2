@@ -1,0 +1,134 @@
+V "GNAT Lib v4.6"
+P SS ZX
+R nnnnnnnnnnnnnnnnnnnnnnnnvvnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnn
+
+U svg%b			svg.adb			27b43df8 NE OO PK
+W abr%s			abr.adb			abr.ali
+W ada%s			ada.ads			ada.ali
+W ada.float_text_io%s	a-flteio.ads		a-flteio.ali
+W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W interfaces%s		interfac.ads		interfac.ali
+W objets%s		objets.ads		objets.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+
+U svg%s			svg.ads			30088a45 EE NE OO PK
+W abr%s			abr.adb			abr.ali
+W ada%s			ada.ads			ada.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W objets%s		objets.ads		objets.ali
+
+D abr.ads		20150325211717 75c6fab0
+D ada.ads		20070406091342 3ffc8e18
+D a-except.ads		20090727140100 0c711ac9
+D a-finali.ads		20090409150019 e5e85fa4
+D a-filico.ads		20090409150019 872dc219
+D a-flteio.ads		20070406091342 e18a47a0
+D a-inteio.ads		20070406091342 f64b89a4
+D a-ioexce.ads		20091130110856 8b9de6cd
+D a-stream.ads		20090409150019 2ca4ee37
+D a-tags.ads		20101021101406 c7695348
+D a-textio.ads		20091028140912 386df5d4
+D a-tiflio.ads		20090409150019 56fbda09
+D a-tiinio.ads		20090409150019 aa04e5d6
+D a-unccon.ads		20070406091342 f9eb8f06
+D interfac.ads		20090409150019 f77d8799
+D i-cstrea.ads		20100622165701 1bd72c32
+D objets.ads		20150326014710 3f2271c7
+D svg.ads		20150330074221 4281f4e6
+D svg.adb		20150330150217 007d79b9
+D system.ads		20120503154647 23e1f70b
+D s-crtl.ads		20100617122610 ac77b159
+D s-exctab.ads		20090417131547 66e51330
+D s-ficobl.ads		20100909103250 443b9d66
+D s-finimp.ads		20090409150019 46853fe8
+D s-finroo.ads		20090409150019 dbb860c9
+D s-parame.ads		20091130110856 9c5d83fa
+D s-secsta.ads		20090707124243 eea35a36
+D s-soflin.ads		20090729085153 9414c974
+D s-stache.ads		20090417130712 596fc1b4
+D s-stalib.ads		20101021102512 c4241c00
+D s-stoele.ads		20090417130712 facd7d98
+D s-stoele.adb		20100617152355 afc5dc80
+D s-stratt.ads		20100909123135 aedef97e
+D s-traent.ads		20090417130712 5221ee41
+D s-unstyp.ads		20090409150019 6ae15c76
+D s-wchcon.ads		20090417130712 bfeb2e3d
+X 1 abr.ads
+1K9*abr 26e8 18|1w26 2r24 19|1w80 2r79
+X 2 ada.ads
+16K9*Ada 19e8 18|1r6 2r5 19|1r22 1r35 1r55 2r21 2r34 2r54
+X 6 a-flteio.ads
+20K13*Float_Text_IO[12|45] 19|1w59 2r58
+X 7 a-inteio.ads
+18K13*Integer_Text_IO[13|45] 19|1w39 2r38
+X 11 a-textio.ads
+49K13*Text_IO 472e16 18|1w10 2r9 19|1w26 2r25
+52P9*File_Type(370R9) 18|6r15 20r65 24r40 19|94r81 130r56
+242U14*Put 19|82s17 84s17 97s17 99s17 101s17 103s17 105s17 106s17 117s17
+. 119s17 121s17 123s17 125s17 126s17 131s18 134s27 135s56
+260U14*Put_Line 19|86s17 91s17 107s17 127s17 137s18
+X 12 a-tiflio.ads
+60U14*Put 19|83s17[6|20] 85s17[6|20] 98s17[6|20] 100s17[6|20] 102s17[6|20]
+. 104s17[6|20] 118s17[6|20] 120s17[6|20] 122s17[6|20] 124s17[6|20] 133s27[6|20]
+. 135s27[6|20]
+X 17 objets.ads
+4K9*Objets 24e11 18|1w19 2r17 19|1w73 2r72
+10R6*Point 13e11 18|20r28 19|94r44
+11f1*X{float} 19|57r33 58r43 68r33 69r43 98r37 102r37 133r52
+12f1*Y{float} 19|29r41 30r50 40r33 41r44 100r37 104r37 135r52
+20A6*Tab_Sommets(10R6)<integer> 18|10r18 12r19 22r27 24r56 19|23r35 51r34
+. 110r42 130r72
+X 18 svg.ads
+4K9*Svg 26l5 26e8 19|4b30 139l21 139t24
+6p1*Fichier_Svg{11|52P9} 19|82r22 83r22 84r22 85r22 86r27 91r27 117r22 118r22
+. 119r22 120r22 121r22 122r22 123r22 124r22 125r21 126r21 127r26
+8E6*Color 8e78 14r28 20r38 19|6r44 94r54
+8n16*Violet{8E6} 19|9r22
+8n24*Indigo{8E6} 19|10r22
+8n32*Bleu{8E6} 19|11r22
+8n38*Vert{8E6} 19|12r22
+8n44*Jaune{8E6} 19|13r22
+8n51*Orange{8E6} 19|14r22
+8n59*Rouge{8E6} 19|15r22
+8n66*Noir{8E6} 19|16r22
+8n72*Blanc{8E6} 19|17r22
+10V10*Width{float} 10>16 19|51b26 77l21 77t26 114s20
+10a16 T{17|20A6} 19|51b32 56r26 57r28 58r38 67r34 68r28 69r38
+12V10*Height{float} 12>17 19|23b26 49l21 49t27 115s20
+12a17 T{17|20A6} 19|23b33 28r34 29r36 30r45 39r34 40r28 41r39
+14V10*Code_Couleur{string} 14>24 19|6b26 19l21 19t33 106s35
+14e24 C{8E6} 19|6b40 8r22
+16U11*Svg_Header 16>22 16>24 19|80b28 87l21 87t31
+16f22 W{float} 19|80b39 83r35
+16f24 H{float} 19|80b41 85r35
+18U11*Svg_Footer 19|89b27 92l21 92t31
+20U11*Svg_Line 20>21 20>24 20>35 20=44 19|94b27 108l21 108t29
+20r21 A{17|10R6} 19|94b37 98r35 100r35
+20r24 B{17|10R6} 19|94b40 102r35 104r35
+20e35 C{8E6} 19|94b51 106r48
+20p44 Fichier_Svg{11|52P9} 19|94b60 97r22 98r22 99r22 100r22 101r22 102r22
+. 103r22 104r22 105r22 106r22 107r27
+22U11*Svg_Grid 22>21 19|110b27 128l21 128t29
+22a21 T{17|20A6} 19|110b36 114r26 115r27
+24U11*svg_polygone 24>24 24>51 19|130b27 137t105
+24p24 Fichier_Svg{11|52P9} 19|130b40 131r23 133r32 134r32 135r32 135r61 137r27
+24a51 tab{17|20A6} 19|130b67 132r36 133r45 135r45
+X 19 svg.adb
+25V26 MaxHeight{float} 25b26 34l21 34t30 48s32
+26f17 Max_Height{float} 29r43 30m33 33r32
+28i29 I{integer} 29r38 30r47
+36V34 MinHeight{float} 36b34 45l21 45t30 48s44
+37f17 Min_Height{float} 40r35 41m25 44r24
+39i29 I{integer} 40r30 41r41
+53V34 MaxWidth{float} 53b34 62l21 62t29 76s32
+54f17 Max_Width{float} 57r35 58m25 61r24
+56i21 I{integer} 57r30 58r40
+64V26 MinWidth{float} 64b26 73l21 73t29 76s43
+65f17 Min_Width{float} 68r35 69m25 72r24
+67i29 I{integer} 68r30 69r40
+111f17 W{float} 114m17 122r34
+111f19 H{float} 115m17 124r34
+132i31 i{integer} 133r49 135r49
+
