@@ -16,7 +16,7 @@ end record;
 
 function hauteur(a: arbre) return natural;
 
-procedure insertion(a: in out arbre; cle: segment);
+procedure insertion(a: in out arbre; cle: segment; n: out arbre);
 
 procedure supprimer(a: in out arbre; cle: segment);
 

@@ -20,20 +20,23 @@ begin
 	end if;
 end;
 
-procedure insertion(a: in out arbre; cle: segment) is
+procedure insertion(a: in out arbre; cle: segment; n: out arbre) is
 begin
 	if a = null then 
 		a := new noeud'(cle, (null, null), null, 1);
+		n := a;
 	else
 		a.compte := a.compte + 1;
 			if cle <= a.c and a.fils(gauche) = null then
 			   a.fils(gauche) := new noeud'(cle, (null, null), a, 1);
+			   n := a.fils(gauche);
 			elsif not(cle <= a.c) and a.fils(droite) = null then
 			   a.fils(droite) := new noeud'(cle, (null, null), a, 1);	
+			   n := a.fils(droite);
 			elsif cle <= a.c then
-				insertion(a.fils(gauche), cle);
+				insertion(a.fils(gauche), cle, n);
 			else 
-				insertion(a.fils(droite), cle);
+				insertion(a.fils(droite), cle, n);
 			end if;
 	end if;
 end;
