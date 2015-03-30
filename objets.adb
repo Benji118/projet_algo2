@@ -2,15 +2,15 @@ with ada.containers.generic_array_sort;
 
 package body objets is
 
-procedure sort_point(t: in out Tab_Sommets) is
+procedure sort_point_seg(t: in out tab_point_seg) is
 
-	function "<" (a,b: point) return boolean is
+	function "<" (a,b: point_seg) return boolean is
 	begin
-		return (a.x < b.x);
+		return (a.p.x < b.p.x);
 	end;
 
 	
-	procedure sort is new ada.containers.generic_array_sort(integer, point, tab_sommets);
+	procedure sort is new ada.containers.generic_array_sort(integer, point_seg, tab_point_seg);
 
 begin
 	sort(t);
