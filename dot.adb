@@ -1,5 +1,5 @@
-with ada.text_io, ada.integer_text_io, abr;
-use ada.text_io, ada.integer_text_io, abr;
+with ada.text_io, ada.integer_text_io, abr, objets;
+use ada.text_io, ada.integer_text_io, abr, objets;
 
 package body dot is
 
@@ -8,13 +8,13 @@ begin
 	if a /= null then
 		if a.fils(gauche) /= null then
 			Put(fichier, """");
-			Put(fichier, integer'image(a.c));
+			Put(fichier, a.c);
 			Put(fichier, ",");
 			Put(fichier, integer'image(a.compte));
 			Put(fichier, """");
 			Put(fichier, " -- ");
 			Put(fichier, """");
-			Put(fichier, integer'image(a.fils(gauche).c));
+			Put(fichier, a.fils(gauche).c);
 			Put(fichier, ",");
 			Put(fichier, integer'image(a.fils(gauche).compte));
 			Put(fichier, """");
@@ -22,13 +22,13 @@ begin
 		end if;
 		if a.fils(droite) /= null then
 			Put(fichier, """");
-			Put(fichier, integer'image(a.c));
+			Put(fichier, a.c);
 			Put(fichier, ",");
 			Put(fichier, integer'image(a.compte));
 			Put(fichier, """");
 			Put(fichier, " -- ");
 			Put(fichier, """");
-			Put(fichier, integer'image(a.fils(droite).c));
+			Put(fichier, a.fils(droite).c);
 			Put(fichier, ",");
 			Put(fichier, integer'image(a.fils(droite).compte));
 			Put(fichier, """");

@@ -16,17 +16,17 @@ begin
 	sort(t);
 end;
 
-procedure put(a: segment) is
+procedure put(fichier: file_type; a: segment) is
 begin
-	put("p1=(");
-	put(float'image(a.p1.x));
-	put(",");
-	put(float'image(a.p1.y));
-	put("); p2=(");
-	put(float'image(a.p2.x));
-	put(",");
-	put(float'image(a.p2.y));
-	put_line(")");
+	put(fichier, "p1=(");
+	put(fichier, float'image(a.p1.x));
+	put(fichier, ",");
+	put(fichier, float'image(a.p1.y));
+	put(fichier, "); p2=(");
+	put(fichier, float'image(a.p2.x));
+	put(fichier, ",");
+	put(fichier, float'image(a.p2.y));
+	put_line(fichier, ")");
 end;
 
 procedure afficher(t: Tab_Sommets) is
@@ -55,5 +55,6 @@ begin
 	else return false;
 	end if;
 end;
+
 
 end objets;

@@ -1,5 +1,5 @@
-with ada.text_io, abr;
-use ada.text_io, abr;
+with ada.text_io, abr, objets;
+use ada.text_io, abr, objets;
 
 package dot is
 
