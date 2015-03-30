@@ -20,6 +20,8 @@ end record;
 type point_seg is record
 	p: Point;
 	seg1, seg2: segment;
+	p: point;
+	seg_1, seg_2: segment;
 end record;
 
 type Tab_Sommets is array (integer range <>) of Point;
@@ -30,7 +32,7 @@ type tab_point_seg is array (integer range <>) of point_seg;
 
 procedure put(a: segment);
 
-procedure sort_point(t: in out Tab_Sommets);
+procedure sort_point_seg(t: in out tab_point_seg);
 
 procedure afficher(t: Tab_Sommets);
 
