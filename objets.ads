@@ -18,8 +18,8 @@ P2 : Point;
 end record;
 
 type point_seg is record
-	p: point;
-	seg_gauche, seg_droite: segment;
+	p: Point;
+	seg1, seg2: segment;
 end record;
 
 type Tab_Sommets is array (integer range <>) of Point;
