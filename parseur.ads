@@ -6,6 +6,6 @@ package Parseur is
 
 procedure Lecture_NbSommets (Nom_Fichier : in String; Nb_Sommets : out Integer);
 
-procedure Lecture_Polygone(Nom_Fichier : in String;T :in out Tab_Sommets;Nb_Sommets:in out Integer; P :in out Polygone);
+procedure Lecture_Tab_point_seg(Nom_Fichier : in String;T :in out Tab_point_seg;Nb_Sommets:in out Integer);
 
 end Parseur;

@@ -5,7 +5,9 @@ package body Parseur is
 
 Fichier_In : File_Type;
 
-procedure Lecture_NbSommets (Nom_Fichier : in String; Nb_Sommets : out Integer) is
+procedure Lecture_NbSommets
+
+ (Nom_Fichier : in String; Nb_Sommets : out Integer) is
 begin
 Open ( File => Fichier_In,
 	   Mode => In_File,
@@ -17,7 +19,7 @@ Close (Fichier_In);
 
 end Lecture_NbSommets;
 
-procedure Lecture_Polygone(Nom_Fichier : in String;T :in out Tab_Sommets;Nb_Sommets:in out Integer; P :in out Polygone) is
+procedure Lecture_Tab_point_seg(Nom_Fichier : in String;T :in out Tab_point_seg;Nb_Sommets:in out Integer) is
 begin
 
 Open ( File => Fichier_In,
@@ -26,22 +28,33 @@ Open ( File => Fichier_In,
 
 Skip_Line (Fichier_In);
 
-for I in 1..Nb_Sommets loop
-	Get(Fichier_In,Float (T(I).X));
-	Get(Fichier_In,Float(T(I).Y));
+declare
+T : Tab_point_seg(1..Nb_Sommets);
+begin
+
+for I in T'range loop
+	Get(Fichier_In,Float (T(I).Point.X));
+	Get(Fichier_In,Float(T(I).Point.Y));
 end loop;
 
-for I in 1..Nb_Sommets loop
-	P(I).P1:=T(I);
-	Put_Line("ok" & Integer'Image(I));
+for I in 1..T'Last-1 loop
+	T(I).Seg1.P1:=T(I).Point;
+	T(I).Seg1.P2:=T(I+1).Point;
 end loop;
 
-for I in 1..Nb_Sommets-1 loop
-	P(I).P1:=T(I);
-	P(I).P2:=T(I+1);	
-end loop;
-	P(Nb_Sommets).P1:=T(Nb_Sommets);
-	P(Nb_Sommets).P2:=T(1);	
+T(Nb_Sommets).Seg1.P1:=T(Nb_Sommets).Point;
+T(Nb_Sommets).Seg1.P2:=T(1).Point;
 
-end Lecture_Polygone;
+for I in 2..T'Last loop
+	T(I).Seg2.P1:=T(I).Point;
+	T(I).Seg2.P2:=T(I-1).Point;
+end loop;
+
+	T(1).Seg2.P1:=T(1).Point;	
+	T(1).Seg2.P2:=T(Nb_Sommets).Point;
+
+end;
+
+end Lecture_Tab_point_seg;
+
 end Parseur;
