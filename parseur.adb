@@ -33,25 +33,25 @@ T : Tab_point_seg(1..Nb_Sommets);
 begin
 
 for I in T'range loop
-	Get(Fichier_In,Float (T(I).Point.X));
-	Get(Fichier_In,Float(T(I).Point.Y));
+	Get(Fichier_In,Float (T(I).P.X));
+	Get(Fichier_In,Float(T(I).P.Y));
 end loop;
 
 for I in 1..T'Last-1 loop
-	T(I).Seg1.P1:=T(I).Point;
-	T(I).Seg1.P2:=T(I+1).Point;
+	T(I).seg1.P1:=T(I).P;
+	T(I).seg1.P2:=T(I+1).P;
 end loop;
 
-T(Nb_Sommets).Seg1.P1:=T(Nb_Sommets).Point;
-T(Nb_Sommets).Seg1.P2:=T(1).Point;
+T(Nb_Sommets).seg1.P1:=T(Nb_Sommets).P;
+T(Nb_Sommets).seg1.P2:=T(1).P;
 
 for I in 2..T'Last loop
-	T(I).Seg2.P1:=T(I).Point;
-	T(I).Seg2.P2:=T(I-1).Point;
+	T(I).seg2.P1:=T(I).P;
+	T(I).seg2.P2:=T(I-1).P;
 end loop;
 
-	T(1).Seg2.P1:=T(1).Point;	
-	T(1).Seg2.P2:=T(Nb_Sommets).Point;
+	T(1).seg2.P1:=T(1).P;	
+	T(1).seg2.P2:=T(Nb_Sommets).P;
 
 end;
 
