@@ -77,7 +77,7 @@
 		end Width;
 
 
-		 procedure Svg_Header(W,H : in Float) is
+		 procedure Svg_Header(Fichier_Svg: File_Type; W,H : in Float) is
 		begin
 		Put (Fichier_Svg, "<svg width=""");
 		Put (Fichier_Svg, W);
@@ -86,13 +86,12 @@
 		Put_Line (Fichier_Svg, """>");
 		end Svg_Header;
 
-		procedure Svg_Footer is
+		procedure Svg_Footer(Fichier_Svg: File_Type) is
 		begin
 		Put_Line (Fichier_Svg, "</svg>");
 		end Svg_Footer;
 
-		procedure Svg_Line (A, B : Point; C: Color;Fichier_Svg : in out File_Type)
-		is
+		procedure Svg_Line (Fichier_Svg: File_Type; A, B : Point; C: Color)	is
 		begin
 		Put (Fichier_Svg, "<line x1=""");
 		Put (Fichier_Svg, A.X);
@@ -107,7 +106,7 @@
 		Put_Line (Fichier_Svg, ";stroke-width:0.1""/>");
 		end Svg_Line;
 
-		procedure Svg_Grid(T: in Tab_point_seg) is
+		procedure Svg_Grid(Fichier_Svg: File_Type; T: in Tab_point_seg) is
 		W,H:Float;
 		begin
 
@@ -127,7 +126,7 @@
 		Put_Line(Fichier_Svg,"""/>""");
 		end Svg_Grid;
 
-		procedure svg_polygone(Fichier_Svg: in File_Type; tab: Tab_point_seg) is begin
+		procedure svg_polygone(Fichier_Svg: File_Type; tab: Tab_point_seg) is begin
 		 Put (Fichier_Svg, "<polygon points=""");
 			  for i in tab'range loop
 			  Put (Fichier_Svg, tab(i).p.X);

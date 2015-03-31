@@ -4,7 +4,7 @@ use ada.command_line, ada.text_io, ada.integer_text_io, objets, abr, svg, dot, p
 procedure main is
 
 	nb_sommets: integer;
-	fichier, fichier_dot: file_type;
+	fichier_svg, fichier_dot: file_type;
 	h, w: float;
 	arbre_res: arbre := null;
 
@@ -60,9 +60,10 @@ procedure main is
 		if r then
 			if (c_petits mod 2 = 1) or (c_grands mod 2 = 1) then
 				-- reconnecter le point courant verticalement aux segments voisins
+				dot_main(fichier_dot, a);
 				reconnecter(t(ind).p, v_petit, v_grand, s1, s2);
-				svg_line(s1.p1, s1.p2, rouge, fichier_svg);
-				svg_line(s2.p1, s2.p2, rouge, fichier_svg);
+				svg_line(fichier_svg, s1.p1, s1.p2, rouge);
+				svg_line(fichier_svg, s2.p1, s2.p2, rouge);
 			end if;
 		end if;
 
@@ -83,21 +84,21 @@ begin
 
 		-- partie préparatoire
 		lecture_tab_point_seg(argument(1), tab, nb_sommets);
-		create(file => fichier, mode => out_file, name => argument(2));
+		afficher(tab);
+		create(file => fichier_svg, mode => out_file, name => argument(2));
 		create(file => fichier_dot, mode => out_file, name => "out.dot");
-		svg_header(h, w);
-	put("ici");
+		svg_header(fichier_svg, height(tab), width(tab));
 		sort_point_seg(tab);
-		svg_polygone(fichier, tab);
+		svg_polygone(fichier_svg, tab);
 
 		--partie algo
 		for i in tab'range loop
-			traitement_point(tab, i, arbre_res, fichier);
+			traitement_point(tab, i, arbre_res, fichier_svg);
 			dot_main(fichier_dot, arbre_res);
 		end loop;
 
 
-		close(fichier);
+		close(fichier_svg);
 		close(fichier_dot);
 
 	end;

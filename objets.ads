@@ -28,7 +28,7 @@ procedure put(fichier: file_type; a: segment);
 
 procedure sort_point_seg(t: in out tab_point_seg);
 
-procedure afficher(t: Tab_Sommets);
+procedure afficher(t: tab_point_seg);
 
 function "<=" (a,b: segment) return boolean;
 

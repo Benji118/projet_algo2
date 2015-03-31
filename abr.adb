@@ -43,14 +43,16 @@ end;
 
 procedure sup_max(max: out segment; a: in out arbre) is
 begin
-	if a.fils(droite) = null then
-		max := a.c;
-		a := a.fils(gauche);
-	else
-		a.compte := a.compte - 1;
-		sup_max(max, a.fils(droite));
+	if a /= null then
+		if a.fils(droite) = null then
+			max := a.c;
+			a := a.fils(gauche);
+		else
+			a.compte := a.compte - 1;
+			sup_max(max, a.fils(droite));
+		end if;
 	end if;
-end;
+	end;
 
 procedure decrementer(a: in out arbre) is
 begin
@@ -96,28 +98,40 @@ end;
 
 function choix_max_arbre(a, b: arbre) return arbre is
 begin
-	if not(a.c <= b.c) then 
-		return a;
+	if a /= null and b /= null then
+		if not(a.c <= b.c) then 
+			return a;
+		else 
+			return b;
+		end if;
 	else 
-		return b;
+		return null;
 	end if;
 end;
 
 function max_arbre(a: arbre) return arbre is
 begin
-	if a.fils(droite) = null then
-		return a;
+	if a /= null then
+		if a.fils(droite) = null then
+			return a;
+		else 
+			return max_arbre(a.fils(droite));
+		end if;
 	else 
-		return max_arbre(a.fils(droite));
+		return null;
 	end if;
 end;
 
 function min_arbre(a: arbre) return arbre is
 begin
-	if a.fils(gauche) = null then
-		return a;
-	else 
-		return max_arbre(a.fils(gauche));
+	if a /= null then
+		if a.fils(gauche) = null then
+			return a;
+		else 
+			return max_arbre(a.fils(gauche));
+		end if;
+	else
+		return null;
 	end if;
 end;
 
