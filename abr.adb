@@ -59,8 +59,10 @@ begin
 	if a = null then
 		null;
 	else
-		a.compte := a.compte - 1;
-		decrementer(a.pere);
+		if a.compte > 1 then
+			a.compte := a.compte - 1;
+		end if;
+			decrementer(a.pere);
 	end if;
 end;
 
@@ -70,10 +72,14 @@ begin
 	if a = null then
 		null;
 	elsif a.c = cle then
-		sup_max(max_cle, a.fils(gauche));
-		a.c := max_cle;
-		-- il faut décrementer le compte des pères
-		decrementer(a.pere);
+			decrementer(a);
+		if a.fils(gauche) = null then
+			a := a.fils(droite);
+		else
+			sup_max(max_cle, a.fils(gauche));
+			a.c := max_cle;
+			-- il faut décrementer le compte des pères
+		end if;
 	else 
 		if not(cle = a.c) and (cle <= a.c) then
 			supprimer(a.fils(gauche), cle);
@@ -103,6 +109,51 @@ begin
 			return a;
 		else 
 			return b;
+		end if;
+	elsif a = null then
+		return b;
+	else 
+		return a;
+	end if;
+end;
+
+function choix_min_arbre(a, b: arbre) return arbre is
+begin
+	if a /= null and b /= null then
+		if a.c <= b.c then 
+			return a;
+		else 
+			return b;
+		end if;
+	elsif a = null then
+		return b;
+	else 
+		return a;
+	end if;
+end;
+
+function max_pere(a: arbre; cle: segment) return arbre is
+	-- on cherche le premier père avec une clef supérieure
+begin
+	if a /= null then
+		if not(a.c <= cle) then
+			return a;
+		else 
+			return max_pere(a.pere, cle);
+		end if;
+	else 
+		return null;
+	end if;
+end;
+
+function min_pere(a: arbre; cle: segment) return arbre is
+	-- on cherche le premier père avec une clef inférieure
+begin
+	if a /= null then
+		if a.c <= cle then
+			return a;
+		else 
+			return min_pere(a.pere, cle);
 		end if;
 	else 
 		return null;
@@ -138,14 +189,10 @@ end;
 procedure noeuds_voisins(cible:	arbre; petit_voisin, grand_voisin: out arbre) is
 begin
 	if cible.pere /= null then
-		petit_voisin := choix_max_arbre(max_arbre(cible.fils(gauche)), cible.pere);
+		petit_voisin := choix_max_arbre(max_arbre(cible.fils(gauche)), min_pere(cible.pere, cible.c ));
+		grand_voisin := choix_min_arbre(min_arbre(cible.fils(droite)), max_pere(cible.pere, cible.c));
 	else
 		petit_voisin := max_arbre(cible.fils(gauche));
-	end if;
-
-	if cible.fils(droite) = null then
-		grand_voisin := null;
-	else 
 		grand_voisin := min_arbre(cible.fils(droite));
 	end if;
 end;
@@ -155,7 +202,11 @@ begin
 	if a = null then 
 		return 0;
 	elsif not(cle = a.c) and (cle <= a.c) then
-		return a.compte - a.fils(gauche).compte + parcours_grands(a.pere, cle);
+		if a.fils(gauche) /= null then
+			return a.compte - a.fils(gauche).compte + parcours_grands(a.pere, cle);
+		else
+			return a.compte + parcours_grands(a.pere, cle);
+		end if;
 	else
 		return parcours_grands(a.pere, cle);
 	end if;
@@ -166,7 +217,14 @@ begin
 	if a = null then 
 		return 0;
 	elsif not(cle <= a.c) then
-		return a.compte - a.fils(droite).compte + parcours_petits(a.pere, cle);
+		if a.fils(droite) /= null then
+			new_line;
+			put(a.c);put(a.fils(droite).c);
+			put(a.compte); put(a.fils(droite).compte);
+			return a.compte - a.fils(droite).compte + parcours_petits(a.pere, cle);
+		else
+			return a.compte + parcours_petits(a.pere, cle);
+		end if;
 	else
 		return parcours_petits(a.pere, cle);
 	end if;

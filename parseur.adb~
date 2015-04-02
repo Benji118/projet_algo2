@@ -20,6 +20,7 @@ package body Parseur is
 	end Lecture_NbSommets;
 
 	procedure Lecture_Tab_point_seg(Nom_Fichier : in String;T : out Tab_point_seg;Nb_Sommets:in out Integer) is
+	T : Tab_point_seg(1..Nb_Sommets);
 	
 	begin
 

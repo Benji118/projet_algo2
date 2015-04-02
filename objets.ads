@@ -18,13 +18,20 @@ type point_seg is record
 	seg1, seg2: segment;
 end record;
 
-type Tab_Sommets is array (integer range <>) of Point;
-
-type Polygone is array (integer range <>) of Segment;
-
 type tab_point_seg is array (integer range <>) of point_seg;
 
+type seg_ptr_ele;
+type list_seg is access seg_ptr_ele;
+type seg_ptr_ele is record
+	seg: segment;
+	suiv: list_seg;
+end record;
+
+procedure deja_utilise(s: segment; liste: in out list_seg; b: out boolean); 
+
 procedure put(fichier: file_type; a: segment);
+
+procedure put(a: segment);
 
 procedure sort_point_seg(t: in out tab_point_seg);
 
@@ -34,5 +41,6 @@ function "<=" (a,b: segment) return boolean;
 
 function "=" (a,b: segment) return boolean;
 
+procedure afficher_list_seg(l: list_seg);
 
 end Objets;
