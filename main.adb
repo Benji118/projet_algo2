@@ -32,32 +32,28 @@ procedure main is
 			supprimer(a, s); 
 		end if;
 
-		if ind = 12 then
-			put("commande:");
-			put(t(ind).seg1);
-		end if;
 		-- enlever les segments qui terminent sur le point courant de l'abr
-		if t(ind).seg1.p2.x < t(ind).p.x then
+		if t(ind).seg1.p2.x <= t(ind).p.x then
 			supprimer(a, t(ind).seg1);
 		end if;
-		if t(ind).seg2.p2.x < t(ind).p.x then
+		if t(ind).seg2.p2.x <= t(ind).p.x then
 			supprimer(a, t(ind).seg2);
 		end if;
 	
 
 		-- ajouter les segments qui commencent sur le point courant dans l'abr
 		deja_utilise(t(ind).seg1, segments_parcourus, deja_utilise_bool);
-		if not(deja_utilise_bool ) and (t(ind).seg1.p2.x > t(ind).p.x) then
+		if not(deja_utilise_bool ) and (t(ind).seg1.p2.x >= t(ind).p.x) then
 			insertion(a, t(ind).seg1, n);
 		end if;
 
 		deja_utilise(t(ind).seg2, segments_parcourus, deja_utilise_bool);
-		if not(deja_utilise_bool) and (t(ind).seg2.p2.x > t(ind).p.x) then
+		if not(deja_utilise_bool) and (t(ind).seg2.p2.x >= t(ind).p.x) then
 			insertion(a, t(ind).seg2, n);
 		end if;
 		
 		-- si le nombre de segments terminant au point courant est 2
-		if (t(ind).seg1.p2.x < t(ind).p.x) and (t(ind).seg2.p2.x < t(ind).p.x) then
+		if (t(ind).seg1.p2.x <= t(ind).p.x) and (t(ind).seg2.p2.x <= t(ind).p.x) then
 			r := true;
 			s := (t(ind).p, t(ind).p);
 			insertion(a, s, n);
@@ -67,8 +63,6 @@ procedure main is
 		end if;
 
 		-- on traite l'éventuel point de rebroussement
-		if ind = 12 then
-		put(c_grands);put(c_petits);end if;
 		if r then
 			if (c_petits mod 2 = 1) or (c_grands mod 2 = 1) then
 				-- reconnecter le point courant verticalement aux segments voisins

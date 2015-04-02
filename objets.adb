@@ -70,7 +70,7 @@ package body objets is
 			else
 				return float'max(a.p1.y, a.p2.y) >= float'max(b.p1.y, b.p2.y); 
 			end if;
-		else 
+		else	
 			return false;
 		end if;
 	end;
