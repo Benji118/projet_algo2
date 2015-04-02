@@ -32,12 +32,8 @@ package body Parseur is
 
 			for I in T'range loop
 				Get(Fichier_In,T(I).P.X);
-				put(T(i).p.x);
 				Get(Fichier_In,T(I).P.Y);
-				put(T(i).p.y);
-				new_line;
 			end loop;
-			afficher(t);
 
 			for I in 1..T'Last-1 loop
 				T(I).seg1.P1:=T(I).P;

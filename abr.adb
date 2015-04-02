@@ -46,6 +46,9 @@ begin
 	if a /= null then
 		if a.fils(droite) = null then
 			max := a.c;
+			if a.fils(gauche) /= null then
+				a.fils(gauche).pere := a.pere;
+			end if;
 			a := a.fils(gauche);
 		else
 			a.compte := a.compte - 1;
@@ -72,13 +75,16 @@ begin
 	if a = null then
 		null;
 	elsif a.c = cle then
+			-- il faut décrementer le compte des pères
 			decrementer(a);
 		if a.fils(gauche) = null then
-			a := a.fils(droite);
+			if a.fils(droite) /= null then
+				a.fils(droite).pere := a.pere;
+			end if;
+				a := a.fils(droite);
 		else
 			sup_max(max_cle, a.fils(gauche));
 			a.c := max_cle;
-			-- il faut décrementer le compte des pères
 		end if;
 	else 
 		if not(cle = a.c) and (cle <= a.c) then
@@ -218,9 +224,6 @@ begin
 		return 0;
 	elsif not(cle <= a.c) then
 		if a.fils(droite) /= null then
-			new_line;
-			put(a.c);put(a.fils(droite).c);
-			put(a.compte); put(a.fils(droite).compte);
 			return a.compte - a.fils(droite).compte + parcours_petits(a.pere, cle);
 		else
 			return a.compte + parcours_petits(a.pere, cle);

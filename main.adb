@@ -21,8 +21,6 @@ procedure main is
 		s1, s2: segment;
 	begin
 		
-		if ind = 8 then
-		put(a.c);end if;
 		-- on regarde si on est sur un point de rebroussement
 		--1) si le nombre de segments commencant au point courant est 2
 		if (t(ind).seg1.p2.x > t(ind).p.x) and (t(ind).seg2.p2.x > t(ind).p.x) then
@@ -34,6 +32,10 @@ procedure main is
 			supprimer(a, s); 
 		end if;
 
+		if ind = 12 then
+			put("commande:");
+			put(t(ind).seg1);
+		end if;
 		-- enlever les segments qui terminent sur le point courant de l'abr
 		if t(ind).seg1.p2.x < t(ind).p.x then
 			supprimer(a, t(ind).seg1);
@@ -41,6 +43,7 @@ procedure main is
 		if t(ind).seg2.p2.x < t(ind).p.x then
 			supprimer(a, t(ind).seg2);
 		end if;
+	
 
 		-- ajouter les segments qui commencent sur le point courant dans l'abr
 		deja_utilise(t(ind).seg1, segments_parcourus, deja_utilise_bool);
@@ -64,6 +67,8 @@ procedure main is
 		end if;
 
 		-- on traite l'éventuel point de rebroussement
+		if ind = 12 then
+		put(c_grands);put(c_petits);end if;
 		if r then
 			if (c_petits mod 2 = 1) or (c_grands mod 2 = 1) then
 				-- reconnecter le point courant verticalement aux segments voisins
@@ -95,10 +100,9 @@ begin
 		svg_header(fichier_svg, height(tab), width(tab));
 		svg_polygone(fichier_svg, tab);
 		sort_point_seg(tab);
-		afficher(tab);
 
 		--partie algo
-		for i in 1..8 loop
+		for i in tab'range loop
 			traitement_point(tab, i, arbre_res, fichier_svg);
 		end loop;
 		dot_main(fichier_dot, arbre_res);

@@ -66,9 +66,9 @@ package body objets is
 			return true;
 		elsif float'min(a.p1.y, a.p2.y) = float'min(b.p1.y, b.p2.y) then
 			if float'max(a.p1.y, a.p2.y) = float'max(b.p1.y, b.p2.y) then
-				return float'max(a.p1.x, a.p2.x) < float'max(b.p1.x, b.p2.x);
+				return float'min(a.p1.x, a.p2.x) <= float'min(b.p1.x, b.p2.x);
 			else
-				return float'max(a.p1.y, a.p2.y) > float'max(b.p1.y, b.p2.y); 
+				return float'max(a.p1.y, a.p2.y) >= float'max(b.p1.y, b.p2.y); 
 			end if;
 		else 
 			return false;
