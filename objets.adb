@@ -146,7 +146,6 @@ begin
 end;
 
 procedure terminant(seg: segment; p: point; segments_parcourus: in out list_seg; termine: out boolean) is
-	verif: boolean;
 	suppr: boolean := false;
 begin
 	if (seg.p2.x < p.x) then
