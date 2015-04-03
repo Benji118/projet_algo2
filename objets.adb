@@ -66,9 +66,13 @@ package body objets is
 			return true;
 		elsif float'min(a.p1.y, a.p2.y) = float'min(b.p1.y, b.p2.y) then
 			if float'max(a.p1.y, a.p2.y) = float'max(b.p1.y, b.p2.y) then
-				return float'min(a.p1.x, a.p2.x) <= float'min(b.p1.x, b.p2.x);
+				if float'max(a.p1.x, a.p2.x) = float'max(b.p1.x, b.p2.x) then
+					return float'min(a.p1.x, a.p2.x) < float'min(b.p1.x, b.p2.x);
+				else
+					return float'max(a.p1.x, a.p2.x) < float'max(b.p1.x, b.p2.x);
+				end if;
 			else
-				return float'max(a.p1.y, a.p2.y) >= float'max(b.p1.y, b.p2.y); 
+				return float'max(a.p1.y, a.p2.y) > float'max(b.p1.y, b.p2.y); 
 			end if;
 		else	
 			return false;
@@ -82,20 +86,24 @@ package body objets is
 end if;
 end;
 
-procedure deja_utilise(s: segment; liste: in out list_seg; b: out boolean) is
+procedure deja_utilise(s: segment; liste: in out list_seg; b: out boolean; suppr: in boolean) is
 	verif: boolean := false;
 	l: list_seg := liste;
 begin
 	if l /= null then
 		-- si l'élément est à la tête de la liste
 		if l.seg = s then
-			liste := liste.suiv;
+			if suppr then
+				liste := liste.suiv;
+			end if;
 			verif := true;
 		end if;
 		while l.suiv /= null and not verif loop
 			if l.suiv.seg = s then
 				verif := true;
-				l.suiv := l.suiv.suiv;
+				if suppr then
+					l.suiv := l.suiv.suiv;
+				end if;
 			else
 				l := l.suiv;
 			end if;
@@ -121,6 +129,33 @@ begin
 		ptr := ptr.suiv;
 	end loop;
 	new_line;
+end;
+
+procedure commencant(seg: segment; p: point; segments_parcourus: in out list_seg; commence: out boolean) is
+	verif: boolean;
+	suppr: boolean := false;
+begin
+	if (seg.p2.x > p.x) then 
+		commence := true;
+	elsif seg.p2.x = p.x then
+		deja_utilise(seg, segments_parcourus, verif, suppr);
+			commence := not verif;
+	else
+		commence := false;
+	end if;
+end;
+
+procedure terminant(seg: segment; p: point; segments_parcourus: in out list_seg; termine: out boolean) is
+	verif: boolean;
+	suppr: boolean := false;
+begin
+	if (seg.p2.x < p.x) then
+		termine := true;
+	elsif seg.p2.x = p.x then 
+		deja_utilise(seg, segments_parcourus, termine, suppr);
+	else 
+		termine := false;
+	end if;
 end;
 
 end objets;

@@ -9,6 +9,8 @@ procedure main is
 	arbre_res: arbre := null;
 	segments_parcourus: list_seg := null;
 	deja_utilise_bool: boolean;
+	suppr: boolean := true;
+	commence1, commence2, termine1, termine2: boolean;
 
 
 	procedure traitement_point(t: tab_point_seg; ind: integer; a: in out arbre; fichier_svg: in out file_type) is
@@ -23,7 +25,9 @@ procedure main is
 		
 		-- on regarde si on est sur un point de rebroussement
 		--1) si le nombre de segments commencant au point courant est 2
-		if (t(ind).seg1.p2.x > t(ind).p.x) and (t(ind).seg2.p2.x > t(ind).p.x) then
+		commencant(t(ind).seg1, t(ind).p, segments_parcourus, commence1);
+		commencant(t(ind).seg2, t(ind).p, segments_parcourus, commence2);
+		if commence1 and commence2 then
 			r := true;
 			s := (t(ind).p, t(ind).p);
 			insertion(a, s, n);
@@ -42,18 +46,22 @@ procedure main is
 	
 
 		-- ajouter les segments qui commencent sur le point courant dans l'abr
-		deja_utilise(t(ind).seg1, segments_parcourus, deja_utilise_bool);
-		if not(deja_utilise_bool ) and (t(ind).seg1.p2.x >= t(ind).p.x) then
+		--deja_utilise(t(ind).seg1, segments_parcourus, deja_utilise_bool, suppr);
+		--if not(deja_utilise_bool ) and (t(ind).seg1.p2.x >= t(ind).p.x) then
+		if commence1 then
 			insertion(a, t(ind).seg1, n);
 		end if;
 
-		deja_utilise(t(ind).seg2, segments_parcourus, deja_utilise_bool);
-		if not(deja_utilise_bool) and (t(ind).seg2.p2.x >= t(ind).p.x) then
+--		deja_utilise(t(ind).seg2, segments_parcourus, deja_utilise_bool, suppr);
+--		if not(deja_utilise_bool) and (t(ind).seg2.p2.x >= t(ind).p.x) then
+		if commence2 then
 			insertion(a, t(ind).seg2, n);
 		end if;
 		
 		-- si le nombre de segments terminant au point courant est 2
-		if (t(ind).seg1.p2.x <= t(ind).p.x) and (t(ind).seg2.p2.x <= t(ind).p.x) then
+		terminant(t(ind).seg1, t(ind).p, segments_parcourus, termine1);
+		terminant(t(ind).seg2, t(ind).p, segments_parcourus, termine2);
+		if termine1 and termine2 then
 			r := true;
 			s := (t(ind).p, t(ind).p);
 			insertion(a, s, n);

@@ -27,7 +27,7 @@ type seg_ptr_ele is record
 	suiv: list_seg;
 end record;
 
-procedure deja_utilise(s: segment; liste: in out list_seg; b: out boolean); 
+procedure deja_utilise(s: segment; liste: in out list_seg; b: out boolean; suppr: in boolean); 
 
 procedure put(fichier: file_type; a: segment);
 
@@ -42,5 +42,9 @@ function "<=" (a,b: segment) return boolean;
 function "=" (a,b: segment) return boolean;
 
 procedure afficher_list_seg(l: list_seg);
+
+procedure commencant(seg: segment; p: point; segments_parcourus: in out list_seg; commence: out boolean);
+
+procedure terminant(seg: segment; p: point; segments_parcourus: in out list_seg; termine: out boolean);
 
 end Objets;
