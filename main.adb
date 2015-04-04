@@ -22,45 +22,74 @@ procedure main is
 		--deux segments pour la reconnection verticale
 		s1, s2: segment;
 	begin
+--		if t(ind).seg1.p2.x = t(ind).p.x then
+--			insertion(a, t(ind).seg1, n);
+--		end if;
+--		if t(ind).seg2.p2.x = t(ind).p.x then
+--			insertion(a, t(ind).seg2, n);
+--		end if;
+		termine1 := false;
+		termine2 := false;
+		commence1 := false;
+		commence2:= false;
 		
 		-- on regarde si on est sur un point de rebroussement
 		--1) si le nombre de segments commencant au point courant est 2
 		commencant(t(ind).seg1, t(ind).p, segments_parcourus, commence1);
 		commencant(t(ind).seg2, t(ind).p, segments_parcourus, commence2);
+		terminant(t(ind).seg1, t(ind).p, segments_parcourus, termine1);
+		terminant(t(ind).seg2, t(ind).p, segments_parcourus, termine2);
+
 		if commence1 and commence2 then
 			r := true;
 			s := (t(ind).p, t(ind).p);
 			insertion(a, s, n);
 			noeuds_voisins(n, v_petit, v_grand);
 			compte_position(n, c_petits, c_grands);
+		if ind = 11 then 
+			put("yolo");
+			put(v_grand.c);
+			dot_main(fichier_dot, a);
+			close(fichier_dot);
+		end if;
 			supprimer(a, s); 
 		end if;
 
+--		if t(ind).seg1.p2.x = t(ind).p.x then
+--			supprimer(a, t(ind).seg1);
+--		end if;
+--		if t(ind).seg2.p2.x = t(ind).p.x then
+--			supprimer(a, t(ind).seg2);
+--		end if;
+
 		-- enlever les segments qui terminent sur le point courant de l'abr
-		if t(ind).seg1.p2.x <= t(ind).p.x then
+--		if t(ind).seg1.p2.x <= t(ind).p.x then
+		if termine1 then
 			supprimer(a, t(ind).seg1);
 		end if;
-		if t(ind).seg2.p2.x <= t(ind).p.x then
+--		if t(ind).seg2.p2.x <= t(ind).p.x then
+		if termine2 then
 			supprimer(a, t(ind).seg2);
 		end if;
 	
 
 		-- ajouter les segments qui commencent sur le point courant dans l'abr
-		--deja_utilise(t(ind).seg1, segments_parcourus, deja_utilise_bool, suppr);
-		--if not(deja_utilise_bool ) and (t(ind).seg1.p2.x >= t(ind).p.x) then
-		if commence1 then
+		deja_utilise(t(ind).seg1, segments_parcourus, deja_utilise_bool, suppr);
+		if not(deja_utilise_bool ) and (t(ind).seg1.p2.x >= t(ind).p.x) then
+		--if commence1 then
 			insertion(a, t(ind).seg1, n);
 		end if;
 
---		deja_utilise(t(ind).seg2, segments_parcourus, deja_utilise_bool, suppr);
---		if not(deja_utilise_bool) and (t(ind).seg2.p2.x >= t(ind).p.x) then
-		if commence2 then
+		deja_utilise(t(ind).seg2, segments_parcourus, deja_utilise_bool, suppr);
+		if not(deja_utilise_bool) and (t(ind).seg2.p2.x >= t(ind).p.x) then
+		--if commence2 then
 			insertion(a, t(ind).seg2, n);
 		end if;
 		
 		-- si le nombre de segments terminant au point courant est 2
-		terminant(t(ind).seg1, t(ind).p, segments_parcourus, termine1);
-		terminant(t(ind).seg2, t(ind).p, segments_parcourus, termine2);
+--		terminant(t(ind).seg1, t(ind).p, segments_parcourus, termine1);
+--		terminant(t(ind).seg2, t(ind).p, segments_parcourus, termine2);
+
 		if termine1 and termine2 then
 			r := true;
 			s := (t(ind).p, t(ind).p);
@@ -107,10 +136,10 @@ begin
 		for i in tab'range loop
 			traitement_point(tab, i, arbre_res, fichier_svg);
 		end loop;
-		dot_main(fichier_dot, arbre_res);
+--		dot_main(fichier_dot, arbre_res);
 
 		svg_footer(fichier_svg);
-		close(fichier_dot);
+--		close(fichier_dot);
 		close(fichier_svg);
 
 	end;

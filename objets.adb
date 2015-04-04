@@ -60,22 +60,35 @@ package body objets is
 		new_line;
 	end;
 
-	function "<=" (a,b: segment) return boolean is
+--	function "<=" (a,b: segment) return boolean is
+--	begin
+--	--	if float'min(a.p1.y, a.p2.y) > float'min(b.p1.y, b.p2.y) then
+--		if float'min(a.p1.x, a.p2.x) < float'min(b.p1.x, b.p2.x) then
+--			put("insertion");
+--			put(a);put(b);new_line;
+--			return true;
+--		elsif float'min(a.p1.y, a.p2.y) = float'min(b.p1.y, b.p2.y) then
+--			if float'max(a.p1.y, a.p2.y) = float'max(b.p1.y, b.p2.y) then
+--				if float'max(a.p1.x, a.p2.x) = float'max(b.p1.x, b.p2.x) then
+--					return float'min(a.p1.x, a.p2.x) < float'min(b.p1.x, b.p2.x);
+--				else
+--					return float'max(a.p1.x, a.p2.x) <= float'max(b.p1.x, b.p2.x);
+--				end if;
+--			else
+--				return float'max(a.p1.y, a.p2.y) > float'max(b.p1.y, b.p2.y); 
+--			end if;
+--		else	
+--			return false;
+--		end if;
+--	end;
+	--
+	function "<=" (a, b: segment) return boolean is
 	begin
-		if float'min(a.p1.y, a.p2.y) > float'min(b.p1.y, b.p2.y) then
-			return true;
-		elsif float'min(a.p1.y, a.p2.y) = float'min(b.p1.y, b.p2.y) then
-			if float'max(a.p1.y, a.p2.y) = float'max(b.p1.y, b.p2.y) then
-				if float'max(a.p1.x, a.p2.x) = float'max(b.p1.x, b.p2.x) then
-					return float'min(a.p1.x, a.p2.x) < float'min(b.p1.x, b.p2.x);
-				else
-					return float'max(a.p1.x, a.p2.x) < float'max(b.p1.x, b.p2.x);
-				end if;
-			else
-				return float'max(a.p1.y, a.p2.y) > float'max(b.p1.y, b.p2.y); 
-			end if;
-		else	
-			return false;
+		if (a.p1.y + a.p2.y)/2.0 = (b.p1.y + b.p2.y)/2.0 then
+			-- les deux segments sont à la même hauteur
+			return (a.p1.x + a.p2.x)/2.0 <= (b.p1.x + b.p2.x)/2.0;
+		else 
+			return (a.p1.y + a.p2.y)/2.0 > (b.p1.y + b.p2.y)/2.0;
 		end if;
 	end;
 
@@ -112,9 +125,13 @@ begin
 	-- se l'élément n'est pas dans la liste, alors on le rajoute
 	if not verif then
 		if l = null then
-			liste := new seg_ptr_ele'(s, null);
+			if suppr then
+				liste := new seg_ptr_ele'(s, null);
+			end if;
 		else
-			l.suiv := new seg_ptr_ele'(s, null);
+			if suppr then
+				l.suiv := new seg_ptr_ele'(s, null);
+			end if;
 		end if;
 	end if;
 	b := verif;
@@ -124,6 +141,7 @@ procedure afficher_list_seg(l: list_seg) is
 	ptr: list_seg := l;
 begin
 	put("affichage de liste");
+	new_line;
 	while ptr /= null loop
 		put(ptr.seg);
 		ptr := ptr.suiv;
@@ -139,7 +157,7 @@ begin
 		commence := true;
 	elsif seg.p2.x = p.x then
 		deja_utilise(seg, segments_parcourus, verif, suppr);
-			commence := not verif;
+		commence := not verif;
 	else
 		commence := false;
 	end if;
