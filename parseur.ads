@@ -1,11 +1,10 @@
 with objets;
 use objets;
 
-package Parseur is
-	
+package parseur is
 
-procedure Lecture_NbSommets (Nom_Fichier : in String; Nb_Sommets : out Integer);
+	procedure lecture_nb_sommets(nom_Fichier: in string; nb_sommets: out integer);
 
-procedure Lecture_Tab_point_seg(Nom_Fichier : in String;T : out Tab_point_seg;Nb_Sommets:in out Integer);
+	procedure lecture_tab_point_seg(nom_Fichier: in String; t: out tab_point_seg);
 
-end Parseur;
+end parseur;

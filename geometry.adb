@@ -23,11 +23,7 @@ end;
 procedure reconnecter(p: point; seg_dessous, seg_dessus: arbre; seg_out_1, seg_out_2: out segment) is
 begin
 	intersection(p, seg_dessous.c, seg_out_1);
-	if seg_dessus = null then
-		put("null");
-	else
-		intersection(p, seg_dessus.c, seg_out_2);	
-	end if;
+	intersection(p, seg_dessus.c, seg_out_2);	
 end;
 
 end geometry;

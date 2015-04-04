@@ -16,11 +16,9 @@ end record;
 
 function hauteur(a: arbre) return natural;
 
-procedure insertion(a: in out arbre; cle: segment; n: out arbre);
+procedure inserer(a: in out arbre; cle: segment; n: out arbre);
 
 procedure supprimer(a: in out arbre; cle: segment);
-
-function recherche(a: arbre; cle: segment) return boolean;
 
 procedure noeuds_voisins(cible: arbre; petit_voisin, grand_voisin: out arbre);
 

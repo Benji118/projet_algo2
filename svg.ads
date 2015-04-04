@@ -1,24 +1,24 @@
 with ada.text_io, objets,abr;
 use ada.text_io,objets,abr;
 
-package Svg is
+package svg is
 
-type Color is (Violet, Indigo, Bleu, Vert, Jaune, Orange, Rouge, Noir, Blanc);
+	type color is (violet, indigo, bleu, vert, jaune, orange, rouge, noir, blanc);
 
-function Width(T:Tab_point_seg) return Float;
+	function width(t: tab_point_seg) return float;
 
-function Height(T:Tab_point_seg) return Float;
+	function height(t: tab_point_seg) return float;
 
-function Code_Couleur (C : Color) return String;
+	function code_couleur(c: color) return string;
 
-procedure Svg_Header(Fichier_Svg: File_Type; W,H : in FLoat);
+	procedure svg_header(fichier_svg: file_type; w, h: in float);
 
-procedure Svg_Footer(Fichier_Svg: File_Type);
+	procedure svg_Footer(fichier_svg: file_type);
 
-procedure Svg_Line (Fichier_Svg: File_Type; A, B : Point; C: Color);
+	procedure svg_line(fichier_svg: file_type; a, b : point; c: color);
 
-procedure Svg_Grid (Fichier_Svg: File_Type; T: in Tab_point_seg);
+	procedure svg_grid (fichier_svg: file_type; t: in tab_point_seg);
 
-procedure svg_polygone(Fichier_Svg: File_Type; tab: Tab_point_seg);
+	procedure svg_polygone(fichier_svg: file_type; tab: tab_point_seg);
 
-end Svg;
+end svg;

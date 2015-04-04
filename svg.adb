@@ -1,138 +1,136 @@
-		with ada.text_io, ada.integer_text_io,ada.float_text_io,objets,abr;
-		use ada.text_io, ada.integer_text_io,ada.float_text_io,objets,abr;
+with ada.text_io, ada.integer_text_io,ada.float_text_io,objets,abr;
+use ada.text_io, ada.integer_text_io,ada.float_text_io,objets,abr;
 
-		package body Svg is
+package body svg is
 
-		function Code_Couleur (C : Color) return String is
-		begin
-		case C is
-		when Violet => return "rgb(255,0,255)";
-		when Indigo => return "rgb(111,0,255)";
-		when Bleu => return "rgb(0,0,255)";
-		when Vert => return "rgb(0,255,0)";
-		When Jaune => return "rgb(0,255,255)";
-		When Orange => return "rgb(255,165,0)";
-		when Rouge => return "rgb(255,0,0)";
-		when Noir => return "rgb(0,0,0)";
-		when Blanc => return "rgb(255,255,255)";
+	function code_couleur (c : color) return string is
+	begin
+		case c is
+			when violet => return "rgb(255,0,255)";
+			when indigo => return "rgb(111,0,255)";
+			when bleu => return "rgb(0,0,255)";
+			when vert => return "rgb(0,255,0)";
+			When jaune => return "rgb(0,255,255)";
+			When orange => return "rgb(255,165,0)";
+			when rouge => return "rgb(255,0,0)";
+			when noir => return "rgb(0,0,0)";
+			when blanc => return "rgb(255,255,255)";
 		end case;
-		end Code_Couleur;
+	end code_couleur;
 
-		
+	function height(t:tab_point_seg) return float is
 
-		function Height(T:Tab_point_seg) return Float is
-
-		function MaxHeight return Float is
-		Max_Height : Float:=0.0;
+		function maxheight return float is
+			Max_Height : float:=0.0;
 		begin
-			for I in T'range loop
-				if T(I).P.Y>Max_Height then
-				Max_Height:=T(I).P.Y;
+			for I in t'range loop
+				if t(I).P.Y>Max_Height then
+					Max_Height:=t(I).P.Y;
 				end if;
 			end loop;
 			return Max_Height;
 		end MaxHeight;
 
-			function MinHeight return Float is
-		Min_Height : Float := 0.0;
+		function MinHeight return float is
+			Min_Height : float := 0.0;
 		begin
-			for I in T'range loop
-			if T(I).P.Y<Min_Height then
-			Min_Height := T(I).P.Y;
-			end if;
-		end loop;
-		return Min_Height;
+			for I in t'range loop
+				if t(I).P.Y<Min_Height then
+					Min_Height := t(I).P.Y;
+				end if;
+			end loop;
+			return Min_Height;
 		end MinHeight;
 
-		begin
-			return MaxHeight - MinHeight;
-		end Height;
+	begin
+		return MaxHeight - MinHeight;
+	end Height;
 
-		function Width(T:Tab_point_seg) return Float is
+	function Width(t:tab_point_seg) return float is
 
-			function MaxWidth return Float is
-		Max_Width : Float:=0.0;
+		function MaxWidth return float is
+			Max_Width : float:=0.0;
 		begin
-		for I in T'range loop
-			if T(I).P.X>Max_Width then
-			Max_Width := T(I).P.X;
-			end if;
-		end loop;
-		return Max_Width;
+			for I in t'range loop
+				if t(I).P.X>Max_Width then
+					Max_Width := t(I).P.X;
+				end if;
+			end loop;
+			return Max_Width;
 		end MaxWidth;
 
-		function MinWidth return Float is
-		Min_Width : Float := 0.0;
+		function MinWidth return float is
+			Min_Width : float := 0.0;
 		begin
-			for I in T'range loop
-			if T(I).P.X<Min_Width then
-			Min_Width := T(I).P.X;
-			end if;
-		end loop;
-		return Min_Width;
+			for I in t'range loop
+				if t(I).P.X<Min_Width then
+					Min_Width := t(I).P.X;
+				end if;
+			end loop;
+			return Min_Width;
 		end MinWidth;
 
-		begin
-			return MaxWidth - MinWidth;
-		end Width;
+	begin
+		return MaxWidth - MinWidth;
+	end Width;
 
 
-		 procedure Svg_Header(Fichier_Svg: File_Type; W,H : in Float) is
-		begin
-		Put (Fichier_Svg, "<svg width=""");
-		Put (Fichier_Svg, W);
-		Put (Fichier_Svg, """ height=""");
-		Put (Fichier_Svg, H);
-		Put_Line (Fichier_Svg, """>");
-		end Svg_Header;
+	procedure svg_Header(fichier_svg: file_type; W,H : in float) is
+	begin
+		Put (fichier_svg, "<svg width=""");
+		Put (fichier_svg, W);
+		Put (fichier_svg, """ height=""");
+		Put (fichier_svg, H);
+		Put_Line (fichier_svg, """>");
+	end svg_Header;
 
-		procedure Svg_Footer(Fichier_Svg: File_Type) is
-		begin
-		Put_Line (Fichier_Svg, "</svg>");
-		end Svg_Footer;
+	procedure svg_footer(fichier_svg: file_type) is
+	begin
+		Put_Line (fichier_svg, "</svg>");
+	end svg_footer;
 
-		procedure Svg_Line (Fichier_Svg: File_Type; A, B : Point; C: Color)	is
-		begin
-		Put (Fichier_Svg, "<line x1=""");
-		Put (Fichier_Svg, A.X);
-		Put (Fichier_Svg, """ y1=""");
-		Put (Fichier_Svg, A.Y);
-		Put (Fichier_Svg, """ x2=""");
-		Put (Fichier_Svg, B.X);
-		Put (Fichier_Svg, """ y2=""");
-		Put (Fichier_Svg, B.Y);
-		Put (Fichier_Svg, """ style=""stroke:");
-		Put (Fichier_Svg, Code_Couleur(C));
-		Put_Line (Fichier_Svg, ";stroke-width:0.1""/>");
-		end Svg_Line;
+	procedure svg_Line (fichier_svg: file_type; A, B : Point; c: color)	is
+	begin
+		Put (fichier_svg, "<line x1=""");
+		Put (fichier_svg, A.X);
+		Put (fichier_svg, """ y1=""");
+		Put (fichier_svg, A.Y);
+		Put (fichier_svg, """ x2=""");
+		Put (fichier_svg, B.X);
+		Put (fichier_svg, """ y2=""");
+		Put (fichier_svg, B.Y);
+		Put (fichier_svg, """ style=""stroke:");
+		Put (fichier_svg, code_couleur(c));
+		Put_Line (fichier_svg, ";stroke-width:0.1""/>");
+	end svg_Line;
 
-		procedure Svg_Grid(Fichier_Svg: File_Type; T: in Tab_point_seg) is
-		W,H:Float;
-		begin
+	procedure svg_Grid(fichier_svg: file_type; t: in tab_point_seg) is
+		W,H:float;
+	begin
 
-		W:=Width(T);
-		H:=Height(T);
+		W:=Width(t);
+		H:=Height(t);
 
-		Put (Fichier_Svg,"<rect x=""");
-		Put (Fichier_Svg,50.0);
-		Put (Fichier_Svg,""" y=""");
-		Put (Fichier_Svg,50.0);
-		Put (Fichier_Svg,""" width=""");
-		Put (Fichier_Svg,W);
-		Put (Fichier_Svg,""" height=""");
-		Put (Fichier_Svg,H);
-		Put(Fichier_Svg,""" style=""");
-		Put(Fichier_Svg,"fill:white;stroke:black;stroke-width:2px;");
-		Put_Line(Fichier_Svg,"""/>""");
-		end Svg_Grid;
+		Put (fichier_svg,"<rect x=""");
+		Put (fichier_svg,50.0);
+		Put (fichier_svg,""" y=""");
+		Put (fichier_svg,50.0);
+		Put (fichier_svg,""" width=""");
+		Put (fichier_svg,W);
+		Put (fichier_svg,""" height=""");
+		Put (fichier_svg,H);
+		Put(fichier_svg,""" style=""");
+		Put(fichier_svg,"fill:white;stroke:black;stroke-width:2px;");
+		Put_Line(fichier_svg,"""/>""");
+	end svg_Grid;
 
-		procedure svg_polygone(Fichier_Svg: File_Type; tab: Tab_point_seg) is begin
-		 Put (Fichier_Svg, "<polygon points=""");
-			  for i in tab'range loop
-			  Put (Fichier_Svg, tab(i).p.X);
-			  Put (Fichier_Svg, ",");
-			  Put (Fichier_Svg, tab(i).p.Y); Put (Fichier_Svg, " ");
-		      end loop;
-		 Put_Line(Fichier_Svg, """ style=""fill:lime;stroke:purple;stroke-width:0.1"" /> "); end;
+	procedure svg_polygone(fichier_svg: file_type; tab: tab_point_seg) is begin
+		Put (fichier_svg, "<polygon points=""");
+		for i in tab'range loop
+			Put (fichier_svg, tab(i).p.X);
+			Put (fichier_svg, ",");
+			Put (fichier_svg, tab(i).p.Y); Put (fichier_svg, " ");
+		end loop;
+		Put_Line(fichier_svg, """ style=""fill:lime;stroke:purple;stroke-width:0.1"" /> "); end;
 
-		end Svg;
+	end svg;
