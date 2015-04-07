@@ -3,16 +3,24 @@ use ada.text_io, ada.integer_text_io;
 
 package body abr is
 
+function max(a,b: natural) return natural is
+begin
+	if a >= b then
+		return a;
+	else return b;
+end if;
+end;
+
 function hauteur(a: arbre) return natural is
 begin
 	if a = null then
 		return 0;
 	else
-		return 1 + integer'max(hauteur(a.fils(gauche)), hauteur(a.fils(droite)));
+		return 1 + max(hauteur(a.fils(gauche)), hauteur(a.fils(droite)));
 	end if;
 end;
 
-procedure inserer(a: in out arbre; cle: segment; n: out arbre) is
+procedure insertion(a: in out arbre; cle: segment; n: out arbre) is
 begin
 	if a = null then 
 		a := new noeud'(cle, (null, null), null, 1);
@@ -26,9 +34,9 @@ begin
 			   a.fils(droite) := new noeud'(cle, (null, null), a, 1);	
 			   n := a.fils(droite);
 			elsif cle <= a.c then
-				inserer(a.fils(gauche), cle, n);
+				insertion(a.fils(gauche), cle, n);
 			else 
-				inserer(a.fils(droite), cle, n);
+				insertion(a.fils(droite), cle, n);
 			end if;
 	end if;
 end;
@@ -84,6 +92,19 @@ begin
 		else 
 			supprimer(a.fils(droite), cle);
 		end if;
+	end if;
+end;
+
+function recherche(a: arbre; cle: segment) return boolean is
+begin
+	if a = null then 
+		return false;
+	elsif cle = a.c then
+		return true;
+	elsif not(cle = a.c) and (cle <= a.c) then
+		return recherche(a.fils(gauche), cle);
+	else 
+		return recherche(a.fils(droite), cle);
 	end if;
 end;
 

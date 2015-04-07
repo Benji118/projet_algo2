@@ -26,4 +26,27 @@ begin
 	intersection(p, seg_dessus.c, seg_out_2);	
 end;
 
+procedure commencant(a: arbre; seg: segment; p: point; commence: out boolean) is
+begin
+	if (seg.p2.x > p.x) then 
+		commence := true;
+	elsif seg.p2.x = p.x then
+		commence := not recherche(a, seg);
+	else
+		commence := false;
+	end if;
+end;
+
+procedure terminant(a: arbre; seg: segment; p: point; termine: out boolean) is
+begin
+	if seg.p2.x < p.x then
+		termine := true;
+	elsif seg.p2.x = p.x then 
+		termine := recherche(a, seg);
+	else 
+		termine := false;
+	end if;
+end;
+
+
 end geometry;

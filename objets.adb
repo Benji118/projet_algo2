@@ -5,8 +5,11 @@ package body objets is
 
 	procedure sort_point_seg(t: in out tab_point_seg) is
 
+		-- la comparaison est nécessaire pour pouvoir trier le tableau
 		function "<" (a,b: point_seg) return boolean is
 		begin
+			-- dans le cas ou deux points ont la même abscisse, on 
+			-- commence avec celui qui est au-dessus
 			if a.p.x = b.p.x then
 				return a.p.y < b.p.y;
 			else
@@ -15,6 +18,7 @@ package body objets is
 		end;
 
 
+		-- le tri générique d'ada
 		procedure sort is new ada.containers.generic_array_sort(integer, point_seg, tab_point_seg);
 
 	begin
@@ -23,8 +27,10 @@ package body objets is
 
 	function "<=" (a, b: segment) return boolean is
 	begin
+		-- au lieu de considérer les maximums des extrémités des segments, on
+		-- considère les milieux des hauteurs
 		if (a.p1.y + a.p2.y)/2.0 = (b.p1.y + b.p2.y)/2.0 then
-			-- les deux segments sont à la même hauteur
+			-- si les deux segments sont à la même hauteur, on considère les milieux des abscisses
 			return (a.p1.x + a.p2.x)/2.0 <= (b.p1.x + b.p2.x)/2.0;
 		else 
 			return (a.p1.y + a.p2.y)/2.0 > (b.p1.y + b.p2.y)/2.0;
@@ -33,73 +39,12 @@ package body objets is
 
 	function "=" (a,b: segment) return boolean is
 	begin
-		if (((a.p1.x = b.p1.x) and (a.p1.y = b.p1.y)) and  ((a.p2.x = b.p2.x) and (a.p2.y = b.p2.y))) or  (((a.p1.x = b.p2.x) and (a.p1.y = b.p2.y)) and  ((a.p2.x = b.p1.x) and (a.p2.y = b.p1.y))) then return true;
-	else return false;
-end if;
-end;
-
-procedure deja_utilise(s: segment; liste: in out list_seg; b: out boolean; suppr: in boolean) is
-	verif: boolean := false;
-	l: list_seg := liste;
-begin
-	if l /= null then
-		-- si l'élément est à la tête de la liste
-		if l.seg = s then
-			if suppr then
-				liste := liste.suiv;
-			end if;
-			verif := true;
+		if (((a.p1.x = b.p1.x) and (a.p1.y = b.p1.y)) and  ((a.p2.x = b.p2.x) and (a.p2.y = b.p2.y))) or  
+			(((a.p1.x = b.p2.x) and (a.p1.y = b.p2.y)) and  ((a.p2.x = b.p1.x) and (a.p2.y = b.p1.y))) then 
+			return true;
+		else 
+			return false;
 		end if;
-		while l.suiv /= null and not verif loop
-			if l.suiv.seg = s then
-				verif := true;
-				if suppr then
-					l.suiv := l.suiv.suiv;
-				end if;
-			else
-				l := l.suiv;
-			end if;
-		end loop;
-	end if;
-	-- se l'élément n'est pas dans la liste, alors on le rajoute
-	if not verif then
-		if l = null then
-			if suppr then
-				liste := new seg_ptr_ele'(s, null);
-			end if;
-		else
-			if suppr then
-				l.suiv := new seg_ptr_ele'(s, null);
-			end if;
-		end if;
-	end if;
-	b := verif;
-end;
-
-procedure commencant(seg: segment; p: point; segments_parcourus: in out list_seg; commence: out boolean) is
-	verif: boolean;
-	suppr: boolean := false;
-begin
-	if (seg.p2.x > p.x) then 
-		commence := true;
-	elsif seg.p2.x = p.x then
-		deja_utilise(seg, segments_parcourus, verif, suppr);
-		commence := not verif;
-	else
-		commence := false;
-	end if;
-end;
-
-procedure terminant(seg: segment; p: point; segments_parcourus: in out list_seg; termine: out boolean) is
-	suppr: boolean := false;
-begin
-	if (seg.p2.x < p.x) then
-		termine := true;
-	elsif seg.p2.x = p.x then 
-		deja_utilise(seg, segments_parcourus, termine, suppr);
-	else 
-		termine := false;
-	end if;
-end;
+	end;
 
 end objets;
