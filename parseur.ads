@@ -4,15 +4,35 @@ use objets;
 -- le paquetage lit le fichier d'entrée et sauvegarde les informations dans un tab_point_seg (défini
 -- dans objets.ads)
 package parseur is
-        function X_Min(T :in Tab_Point_Seg) return Float;
-        function X_Max(T :in Tab_Point_Seg) return Float;
-        function Y_Min(T :in Tab_Point_Seg) return Float;
-        function Y_Max(T :in Tab_Point_Seg) return Float;
 
-        --Translate toutes les coordonnées X des points parsés pour les ramener dans le carré positif de la grille svg
-        procedure Translation_X(T :in out Tab_Point_Seg);
-        --Translate toutes les coordonnées Y des points parsés pour les ramener dans le carré positif de la grille svg
-        procedure Translation_Y(T :in out Tab_Point_Seg);
+        function x_min(t :in tab_point_seg) return float;
+		-- req: un tab_point_seg quelconque
+		-- gar: l'abscisse minimale du tableau
+		
+        function y_min(t :in tab_point_seg) return float;
+		-- req: un tab_point_seg quelconque
+		-- gar: l'ordonnée minimale du tableau
+
+        function x_max(t :in tab_point_seg) return float;
+		-- req: un tab_point_seg quelconque
+		-- gar: l'abscisse maximale du tableau
+		
+        function y_max(t :in tab_point_seg) return float;
+		-- req: un tab_point_seg quelconque
+		-- gar: l'ordonnée maximale du tableau
+
+        -- Translate toutes les coordonnées X des points parsés pour les ramener dans le carré positif de la grille svg
+        procedure translation_x(t :in out tab_point_seg);
+		-- req: un tab_point_seg quelconque
+		-- gar: dans le cas où un point a une abscisse négative, tous les points seront translatés 
+		-- de la valeur absolue de la valeur minimale des abscisses 
+
+        -- Translate toutes les coordonnées Y des points parsés pour les ramener dans le carré positif de la grille svg
+        procedure translation_y(t :in out tab_point_seg);
+		-- req: un tab_point_seg quelconque
+		-- gar: dans le cas où un point a une ordonnée négative, tous les points seront translatés 
+		-- de la valeur absolue de la valeur minimale des ordonnées 
+
         -- procédure qui lit uniquement la première ligne du fichier d'entrée
         -- on en a besoin dans le programme principal pour pouvoir initialiser le tab_point_seg
         procedure lecture_nb_sommets(nom_Fichier: in string; nb_sommets: out integer);

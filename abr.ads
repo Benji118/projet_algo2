@@ -34,9 +34,9 @@ procedure supprimer(a: in out arbre; cle: segment);
 function recherche(a: arbre; cle: segment) return boolean;
 -- req: un arbre binaire de recherche quelconque
 -- gar: renvoie true si la cle en question a été trouvé, renvoie false sinon
--- 
+ 
 procedure noeuds_voisins(cible: arbre; petit_voisin, grand_voisin: out arbre);
--- req: un arbre qui se situe à la place d'une feuille, comme c'est le cas dans l'algorithme principal lorsqu'on appelle cette fonction
+-- req: un arbre binaire de recherche quelconque
 -- gar: renvoie le segment juste en-dessous et juste au-dessus par rapport au noeud en question(i.e. la "cible")
 
 procedure compte_position(cible: arbre; nb_petits, nb_grands: out natural);

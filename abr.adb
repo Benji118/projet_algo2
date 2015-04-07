@@ -126,6 +126,7 @@ begin
         end if;
 end;
 
+-- fonction auxiliaire de la procédure noeuds_voisins
 function min_pere(a: arbre; cle: segment) return arbre is
         -- on cherche le premier père avec une clef inférieure à la "cle"
 begin
@@ -140,21 +141,88 @@ begin
         end if;
 end;
 
+-- fonction auxiliaire de la procédure noeuds_voisins
+-- elle renvoie l'arbre qui a la plus grande cle
+function choix_max_arbre(a, b: arbre) return arbre is
+begin
+	if a /= null and b /= null then
+		if not(a.c <= b.c) then 
+			return a;
+		else 
+			return b;
+		end if;
+	elsif a = null then
+		return b;
+	else 
+		return a;
+	end if;
+end;
+
+-- fonction auxiliaire de la procédure noeuds_voisins
+-- elle renvoie l'arbre qui a la plus petite cle
+function choix_min_arbre(a, b: arbre) return arbre is
+begin
+	if a /= null and b /= null then
+		if a.c <= b.c then 
+			return a;
+		else 
+			return b;
+		end if;
+	elsif a = null then
+		return b;
+	else 
+		return a;
+	end if;
+end;
+
+-- fonction auxiliaire de la procédure noeuds_voisins
+-- elle renvoie la plus grande feuille droite de l'arbre
+function max_arbre(a: arbre) return arbre is
+begin
+	if a /= null then
+		if a.fils(droite) = null then
+			return a;
+		else 
+			return max_arbre(a.fils(droite));
+		end if;
+	else 
+		return null;
+	end if;
+end;
+
+-- fonction auxiliaire de la procédure noeuds_voisins
+-- elle renvoie la plus petite feuille gauche de l'arbre
+function min_arbre(a: arbre) return arbre is
+begin
+	if a /= null then
+		if a.fils(gauche) = null then
+			return a;
+		else 
+			return max_arbre(a.fils(gauche));
+		end if;
+	else
+		return null;
+	end if;
+end;
+
 procedure noeuds_voisins(cible: arbre; petit_voisin, grand_voisin: out arbre) is
 begin
     -- l'astuce de la fonction est de voir que les arbres dont on cherche les voisins sont que des feuilles
     -- dans l'algorithme principal
-        if cible.pere /= null then
-                petit_voisin := min_pere(cible.pere, cible.c);
-                grand_voisin := max_pere(cible.pere, cible.c);
-        else
-        -- s'il y a pas de père, il s'agit de la racine, or dans l'algorithme principal, "cible" est toujours une feuille, i.e.
-        -- l'arbre n'est qu'une racine => il n'y a pas de segments adjacents
-                petit_voisin := null;
-                grand_voisin := null;
+	-- Quoiqu'il en soit, on était censé d'écrire une fonction générique, du coup on a aussi pris en considération
+	-- les fils gauche et droite
+		if cible.pere /= null then
+				petit_voisin := choix_max_arbre(max_arbre(cible.fils(gauche)), min_pere(cible.pere, cible.c ));
+				grand_voisin := choix_min_arbre(min_arbre(cible.fils(droite)), max_pere(cible.pere, cible.c));
+		else
+        -- s'il y a pas de père, il s'agit de la racine et alors on ne considère que ses fils
+				petit_voisin := max_arbre(cible.fils(gauche));
+				grand_voisin := min_arbre(cible.fils(droite));
         end if;
 end;
 
+-- fonction auxiliaire de la procédure "compte_position"
+-- elle renvoie le nombre de noeud du côté droit de l'arbre
 function parcours_grands(a: arbre; cle: segment) return natural is
 begin
         if a = null then
@@ -170,6 +238,8 @@ begin
         end if;
 end;
 
+-- fonction auxiliaire de la procédure "compte_position"
+-- elle renvoie le nombre de noeud du côté gauche de l'arbre
 function parcours_petits(a: arbre; cle: segment) return natural is
 begin
         if a = null then
@@ -191,6 +261,10 @@ begin
     -- il faut prendre en considération les champs "compte" des pères et des fils gauches et droites
     -- sinon, l'algo serait en O(n), alors comme ça, il est en O(h)
 
+	-- ici, on fait plusieurs sous-cas dans le cas où le noeud en question n'a pas de fils gauche/droite ou de père
+	-- sachant que ceci est encore une fois pas très utile pour l'algorithme principal en question, car il ne s'agit des 
+	-- feuilles dont on demande le compte_position
+	
     -- nb_petits
         if cible.fils(gauche) = null then
                 if cible.pere = null then
