@@ -1,21 +1,114 @@
 \documentclass[11pt,english]{article}
 \usepackage[T1]{fontenc}
 \usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{xspace}
+\usepackage{listings}
+\lstset{
+morekeywords={abort,abs,accept,access,all,and,array,at,begin,body,
+case,constant,declare,delay,delta,digits,do,else,elsif,end,entry,
+exception,exit,for,function,generic,goto,if,in,is,limited,loop,
+mod,new,not,null,of,or,others,out,package,pragma,private,
+procedure,raise,range,record,rem,renames,return,reverse,select,
+separate,subtype,task,terminate,then,type,use,when,while,with,
+xor,abstract,aliased,protected,requeue,tagged,until},
+sensitive=f,
+morecomment=[l]--,
+morestring=[d]",
+showstringspaces=false,
+basicstyle=\small\ttfamily,
+keywordstyle=\bf\small,
+commentstyle=\itshape,
+stringstyle=\sf,
+extendedchars=true,
+columns=[c]fixed
+}
+% CI-DESSOUS: conversion des caractères accentués UTF-8
+% en caractères TeX dans les listings...
+\lstset{
+literate=%
+{À}{{\`A}}1 {Â}{{\^A}}1 {Ç}{{\c{C}}}1%
+{à}{{\`a}}1 {â}{{\^a}}1 {ç}{{\c{c}}}1%
+{É}{{\'E}}1 {È}{{\`E}}1 {Ê}{{\^E}}1 {Ë}{{\"E}}1%
+{é}{{\'e}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {ë}{{\"e}}1%
+{Ï}{{\"I}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1%
+{ï}{{\"i}}1 {î}{{\^i}}1 {ô}{{\^o}}1%
+{Ù}{{\`U}}1 {Û}{{\^U}}1 {Ü}{{\"U}}1%
+{ù}{{\`u}}1 {û}{{\^u}}1 {ü}{{\"u}}1%
+}
+%%%%%%%%%%
+% TAILLE DES PAGES (A4 serré)
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex}
+\setlength{\textwidth}{17cm}
+\setlength{\textheight}{24cm}
+\setlength{\oddsidemargin}{-.7cm}
+\setlength{\evensidemargin}{-.7cm}
+\setlength{\topmargin}{-.5in}
+%%%%%%%%%%
+% EN-TÊTES ET PIED DE PAGES
+%% \pagestyle{fancyplain}
+\renewcommand{\headrulewidth}{0pt}
+\addtolength{\headheight}{1.6pt}
+\addtolength{\headheight}{2.6pt}
+\lfoot{}
+\cfoot{\footnotesize\sf TPL Algo - Nœuds}
+\rfoot{\footnotesize\sf page~\thepage/\pageref{LastPage}}
+\lhead{}
+%%%%%%%%%%
+% COMMANDES PERSONNALISEES
+\newcommand{\shellcmd}[1]{\\\indent\indent\texttt{\footnotesize\# #1}\\}
+%%%%%%%%%
 
 \author{
 {Felix Hanleim}
 \and
 {Benjamin Lebit}
 }
-\title{Projet 1 Algorithmique et Structures de Donnees 2}
+\title{Projet 1 - Algorithmique et Structures de Donnees 2}
 
 \begin{document}
 \maketitle
 \section{Utilisation}
+Notre programme exécute bien l'algorithme de décomposition d'un polynôme 
+non monotone en polynômes monotones comme décrit dans l'énoncé. 
+Pour l'exécution du programme, il faudra utiliser la commande :
+\shellcmd{./main num.in output.svg}
+avec num un entier de 1 à 8 correspondant aux 8 fichiers d'entrée fournit dans 
+le sujet et ouput.svg le fichier svg de sortie.
+On compilera au préalable avec :
+\shellcmd{gnatmake main.adb}
 
 
-\section{Structures de donnees et organisation du code}
-
-\section{Tests et performances}
-
+\section{Organisation du code et structures de données}
+\subsection{Paquets}
+Le programme est décomposé en 6 paquets différents :
+\begin{enumerate}
+\item \emph{main} : Le main comprenant l'algorithme principal implémenté par 
+l'appel des autres modules et utilisant les structures de données du paquet objets.
+\item \emph{objets} : Comprend les définitions de tous les objets et structures
+ de données utilisées dans le projet, ainsi que les fonctions de comparaisons utiles
+ à l'algorithme principal.
+\item \emph{abr} : Gère l'implémentation des arbres binaires de recherche ainsi 
+que les procédures compte\_position et noeuds\_voisins imposées par l'énoncé.
+\item \emph{parseur} : Permet la lecture et la sauvegarde des données du fichier 
+in d'entrée ainsi que la modification des coordonnées utilisés lors du tracé svg.
+\item \emph{geometry} : contient les procédures permettant de qualifié un segment 
+comme entrant ou sortant et de raccordement des segments verticaux de séparation 
+aux côtés du polygône. 
+\item \emph{svg} : Contient les procédures d'écriture en svg nécessaires au tracé 
+des polygônes en entrée ainsi que des segments verticaux de séparation de l'algorithme.
+\end{enumerate}
+\subsection{Structures}
+La structure choisie de sauvegarde des données du fichier .in est un tableau 
+d'enregistrement d'un sommet du polygône et de ses 2 segments qui permet un 
+parcours facile lors de l'algorithme principale. La structure choisie pour 
+l'arbre binaire est le même que celle proposée par l'énoncé.
 \end{document}
