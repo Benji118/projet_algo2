@@ -95,8 +95,6 @@ begin
                 -- partie préparatoire
                 lecture_tab_point_seg(argument(1), tab);
                 --Translation des points vers le premier quadrant du repère
---                translation_x(tab);
-  --              translation_y(tab);
                 create(file => fichier_svg, mode => out_file, name => argument(2));
                 -- écriture dans le fichier de sortie
                 svg_header(Fichier_Svg,tab);

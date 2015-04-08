@@ -108,6 +108,8 @@ package body parseur is
 		end loop;
 		close(fichier_in);
 
+		translation_x(t);
+		translation_y(t);
 		-- les points voisins d'un point dans le polygon sont définis par l'ordre
 		-- des points dans le fichier d'entrée. Or, on va trier le tableau dans le programme
 		-- principal. Ainsi, il est important de se rappeler du voisinage de chaque point
