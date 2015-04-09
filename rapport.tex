@@ -1,114 +1,68 @@
-\documentclass[11pt,english]{article}
-\usepackage[T1]{fontenc}
-\usepackage{babel}
-\usepackage[utf8]{inputenc}
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-\usepackage{graphicx}
-\usepackage[T1]{fontenc}
-\usepackage{amsmath,amssymb}
-\usepackage{fullpage}
-\usepackage{url}
-\usepackage{xspace}
-\usepackage{listings}
-\lstset{
-morekeywords={abort,abs,accept,access,all,and,array,at,begin,body,
-case,constant,declare,delay,delta,digits,do,else,elsif,end,entry,
-exception,exit,for,function,generic,goto,if,in,is,limited,loop,
-mod,new,not,null,of,or,others,out,package,pragma,private,
-procedure,raise,range,record,rem,renames,return,reverse,select,
-separate,subtype,task,terminate,then,type,use,when,while,with,
-xor,abstract,aliased,protected,requeue,tagged,until},
-sensitive=f,
-morecomment=[l]--,
-morestring=[d]",
-showstringspaces=false,
-basicstyle=\small\ttfamily,
-keywordstyle=\bf\small,
-commentstyle=\itshape,
-stringstyle=\sf,
-extendedchars=true,
-columns=[c]fixed
-}
-% CI-DESSOUS: conversion des caractÃ¨res accentuÃ©s UTF-8
-% en caractÃ¨res TeX dans les listings...
-\lstset{
-literate=%
-{Ã€}{{\`A}}1 {Ã‚}{{\^A}}1 {Ã‡}{{\c{C}}}1%
-{Ã }{{\`a}}1 {Ã¢}{{\^a}}1 {Ã§}{{\c{c}}}1%
-{Ã‰}{{\'E}}1 {Ãˆ}{{\`E}}1 {ÃŠ}{{\^E}}1 {Ã‹}{{\"E}}1%
-{Ã©}{{\'e}}1 {Ã¨}{{\`e}}1 {Ãª}{{\^e}}1 {Ã«}{{\"e}}1%
-{Ã}{{\"I}}1 {Ã}{{\^I}}1 {Ã”}{{\^O}}1%
-{Ã¯}{{\"i}}1 {Ã®}{{\^i}}1 {Ã´}{{\^o}}1%
-{Ã™}{{\`U}}1 {Ã›}{{\^U}}1 {Ãœ}{{\"U}}1%
-{Ã¹}{{\`u}}1 {Ã»}{{\^u}}1 {Ã¼}{{\"u}}1%
-}
-%%%%%%%%%%
-% TAILLE DES PAGES (A4 serrÃ©)
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1ex}
-\setlength{\textwidth}{17cm}
-\setlength{\textheight}{24cm}
-\setlength{\oddsidemargin}{-.7cm}
-\setlength{\evensidemargin}{-.7cm}
-\setlength{\topmargin}{-.5in}
-%%%%%%%%%%
-% EN-TÃŠTES ET PIED DE PAGES
-%% \pagestyle{fancyplain}
-\renewcommand{\headrulewidth}{0pt}
-\addtolength{\headheight}{1.6pt}
-\addtolength{\headheight}{2.6pt}
-\lfoot{}
-\cfoot{\footnotesize\sf TPL Algo - NÅ“uds}
-\rfoot{\footnotesize\sf page~\thepage/\pageref{LastPage}}
-\lhead{}
-%%%%%%%%%%
-% COMMANDES PERSONNALISEES
-\newcommand{\shellcmd}[1]{\\\indent\indent\texttt{\footnotesize\# #1}\\}
-%%%%%%%%%
+\documentclass[a4paper,11pt]{article}
 
-\author{
-{Felix Hanleim}
-\and
-{Benjamin Lebit}
-}
-\title{Projet 1 - Algorithmique et Structures de Donnees 2}
+
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage[francais]{babel}
+\usepackage[latin1]{inputenc}
+%\usepackage{calrsfs}
+
+
+\title{Décomposition en polygones monotones}
+\author{Hähnlein Felix, Lebit Benjamin}
+\date{Avril 2015}
 
 \begin{document}
 \maketitle
+
+
 \section{Utilisation}
-Notre programme exÃ©cute bien l'algorithme de dÃ©composition d'un polynÃ´me 
-non monotone en polynÃ´mes monotones comme dÃ©crit dans l'Ã©noncÃ©. 
-Pour l'exÃ©cution du programme, il faudra utiliser la commande :
-\shellcmd{./main num.in output.svg}
-avec num un entier de 1 Ã  8 correspondant aux 8 fichiers d'entrÃ©e fournit dans 
-le sujet et ouput.svg le fichier svg de sortie.
-On compilera au prÃ©alable avec :
-\shellcmd{gnatmake main.adb}
+Notre programme exécute bien l'algorithme de décomposition d'un polygone 
+non monotone en plusieurs polygones monotones comme décrit dans l'énoncé. 
+Pour l'exécution du programme, il faudra utiliser la commande :\\
+\\
+\verb+./main nom_fichier_entree.in nom_fichier_sortie.svg+
+\\
+
+avec un fichier d'entrée qui suit bien le benchmark imposé par le sujet et les fichier d'exemple.
+On compilera au préalable avec 
+\verb+gnatmake main+\\
 
 
-\section{Organisation du code et structures de donnÃ©es}
+\section{Organisation du code et structures de données}
+Remarque : Le sujet qualifie un segment comme ``entrant'' ou ``sortant''. Nous remplaceront ses deux attributs en qualifiant un segment respectivement comme ``terminant'' et ``commençant'', car cela nous semble plus explicite.
 \subsection{Paquets}
-Le programme est dÃ©composÃ© en 6 paquets diffÃ©rents :
+Le programme est décomposé en 6 paquets différents :
 \begin{enumerate}
-\item \emph{main} : Le main comprenant l'algorithme principal implÃ©mentÃ© par 
-l'appel des autres modules et utilisant les structures de donnÃ©es du paquet objets.
-\item \emph{objets} : Comprend les dÃ©finitions de tous les objets et structures
- de donnÃ©es utilisÃ©es dans le projet, ainsi que les fonctions de comparaisons utiles
- Ã  l'algorithme principal.
-\item \emph{abr} : GÃ¨re l'implÃ©mentation des arbres binaires de recherche ainsi 
-que les procÃ©dures compte\_position et noeuds\_voisins imposÃ©es par l'Ã©noncÃ©.
-\item \emph{parseur} : Permet la lecture et la sauvegarde des donnÃ©es du fichier 
-in d'entrÃ©e ainsi que la modification des coordonnÃ©es utilisÃ©s lors du tracÃ© svg.
-\item \emph{geometry} : contient les procÃ©dures permettant de qualifiÃ© un segment 
-comme entrant ou sortant et de raccordement des segments verticaux de sÃ©paration 
-aux cÃ´tÃ©s du polygÃ´ne. 
-\item \emph{svg} : Contient les procÃ©dures d'Ã©criture en svg nÃ©cessaires au tracÃ© 
-des polygÃ´nes en entrÃ©e ainsi que des segments verticaux de sÃ©paration de l'algorithme.
+\item {\bf{main}} : Le paquetage main contient et exécute l'algorithme principal implémenté par
+l'appel des autres modules. Il  utilise les structures de données du paquet objets.
+\item {\bf{objets}} : Ce paquetage comprend les définitions de tous les objets et structures
+ de données utilisées dans le projet, ainsi que les fonctions de comparaisons nécessaires
+ à l'algorithme principal. Dans le cas où on voudrait changer la clef des abr, il faudra changer
+ la définition du \verb+type_clef+ et les fonctions de comparaisons spécifiques dans ce paquetage 
+ et les fonctions déterminant le commencement et la terminaison d'un segment dans le paquetage \verb+geometry+.
+\item {\bf{abr}} : Gère l'implémentation des arbres binaires de recherche ainsi 
+que les procédures \verb+compte_position+ et \verb+noeuds_voisins+ imposées par l'énoncé. Les fonctions standards \verb+insertion, supprimer, recherche+ ont été implémentées de façon à être utilisées dans l'algorithme principal tout en restant génériques.
+\item {\bf{parseur}} : Permet la lecture et la sauvegarde des données du fichier 
+\verb+ .in+ d'entrée ainsi que la modification des coordonnées utilisées lors du tracer svg.
+\item {\bf{geometry}} : Contient les procédures permettant de qualifier un segment 
+comme commençant ou terminant et le raccordement des segments verticaux de séparation 
+aux côtés du polygone. 
+Il s'agit donc d'un paquetage qui doit être modifié dans le cas où on veut changer la clef de l'arbre tout en garantissant le bon fonctionnement de l'algorithme.
+\item {\bf{svg}} : Contient les procédures d'écriture en svg nécessaires au tracer
+des polygones en entrée ainsi que des segments verticaux de séparation de l'algorithme.
 \end{enumerate}
 \subsection{Structures}
-La structure choisie de sauvegarde des donnÃ©es du fichier .in est un tableau 
-d'enregistrement d'un sommet du polygÃ´ne et de ses 2 segments qui permet un 
-parcours facile lors de l'algorithme principale. La structure choisie pour 
-l'arbre binaire est le mÃªme que celle proposÃ©e par l'Ã©noncÃ©.
+La structure choisie de sauvegarde des données du fichier \verb+.in+ est un tableau 
+d'un type d'enregistrement qui est composé d'un sommet du polygone et des 2 segments ayant un point commun avec le sommet.
+Il est nécessaire de se rappeler des sommets voisins lors de la sauvegarde des données, car on va parcourir les sommets selon l'abscisse croissante, i.e. on va trier le tableau les contenant, ce qui détruira l'ordre initial des sommets.\\
+La structure choisie pour l'arbre binaire est le même que celle proposée par l'énoncé.\\
+Afin que le paquetage de l'arbre soit générique, i.e. appliquable à n'importe quel type de clef, on a introduit un type \verb+type_clef+ intermédiaire entre le type \verb+segment+ et les fonctions et procédures qui dérive directement du type \verb+segment+.
+
+\subsection{Complexité}
+L'algorithme principal parcourt les $n$ points du polygone et à chaque fois on appelle la fonction \verb+traitement_point+. Cette dernière fonction est initialement en $O(h)$ avec h la hauteur de l'arbre, car toutes les fonctions utilisées sont en $O(h)$. Ceci est vrai pour l'algorithme initial, mais il faut encore pouvoir choisir si un segment commence ou bien termine en un certain point.\\
+Pour résoudre le problème des segments verticaux qui apparaissent à partir du polygone \verb+6.in+, il faut se rappeler quels segments avaient déjà été parcourus pour pouvoir prendre une décision adaptée. On a remarqué que l'utilisation d'une liste, provoquerait une augmentation de la complexité, car le parcours d'une telle structure serait potentiellement en $O(n)$, il serait donc plus couteux que le reste de nos fonctions. Cependant, cette vérification peut être réalisé par une simple recherche dans notre arbre binaire de recherche, une opération qui est de nouveau en $O(h)$.\\
+Ainsi notre programme reste en $O(n*h)$.
+\subsection{Tests}
+Tout au long du développement, on s'est servi des affichages de notre arbre binaire de recherche sous format \verb+dot+. Pour pouvoir visualiser l'arbre en construction à un certain sommet, il suffit de modifier la boucle principale qui parcours tous les points et de décommenter la section de code correspondante dans la procédure \verb+main+.
 \end{document}
